@@ -1,5 +1,13 @@
-# Projet GameOn
-1. Forkez ce repo ;
-2. Il est conseillé d'utiliser VisualStudio Code et vous pouvez utiliser Docker, mais ce n'est pas obligatoire ;
-3. Il n'y a aucune dépendance ;
-4. Vous ne devez utiliser que du CSS personnalisé et du JavaScript pur, sans jQuery, Bootstrap ou autre librairie.
+# GameOn Website
+
+Projet 4 du cursus Développeur Javascript React proposé par [OpenClassrooms](https://openclassrooms.com/fr/).
+
+Lien : [GameOn Website](https://h3lt3r-sk3lt3r.github.io/GameOn-website-FR/starterOnly/)
+
+## Fabriqué avec
+
+* [Visual Studio Code](https://code.visualstudio.com/) - Editeur de textes
+
+## Auteurs
+
+* **Dimitri Bartone** _alias_ [@h3lt3r-sk3lt3r](https://github.com/h3lt3r-sk3lt3r)
