@@ -99,7 +99,7 @@ img {
     display: block;
     margin-top: -15px;
   }
-} 
+}
 
 main {
   font-size: 130%;
@@ -226,21 +226,21 @@ input {
 .formData[data-error-visible="true"] .text-control {
   border: 2px solid #e54858;
 }
-/* 
+/*
 input[data-error]::after {
     content: attr(data-error);
     font-size: 0.4em;
     color: red;
 } */
 .checkbox-label,
-.checkbox2-label {
+.radio-label {
   position: relative;
   margin-left: 36px;
   font-size: 12px;
   font-weight: normal;
 }
 .checkbox-label .checkbox-icon,
-.checkbox2-label .checkbox-icon {
+.radio-label .radio-icon {
   display: block;
   width: 20px;
   height: 20px;
@@ -254,7 +254,7 @@ input[data-error]::after {
   transition: 0.3s;
 }
 .checkbox-label .checkbox-icon::after,
-.checkbox2-label .checkbox-icon::after {
+.radio-label .radio-icon::after {
   content: "";
   width: 13px;
   height: 13px;
@@ -269,22 +269,23 @@ input[data-error]::after {
   transition: 0.3s;
   opacity: 0;
 }
-.checkbox-input {
+.checkbox-input,
+.radio-input {
   display: none;
 }
 .checkbox-input:checked + .checkbox-label .checkbox-icon::after,
-.checkbox-input:checked + .checkbox2-label .checkbox-icon::after {
+.radio-input:checked + .radio-label .radio-icon::after {
   opacity: 1;
 }
-.checkbox-input:checked + .checkbox2-label .checkbox-icon {
+.checkbox-input:checked + .checkbox-label .checkbox-icon {
   background: #279e7a;
 }
-.checkbox2-label .checkbox-icon {
+.checkbox-label .checkbox-icon {
   border-radius: 4px;
   border: 0;
   background: #c4c4c4;
 }
-.checkbox2-label .checkbox-icon::after {
+.checkbox-label .checkbox-icon::after {
   width: 7px;
   height: 4px;
   border-radius: 2px;
@@ -296,6 +297,12 @@ input[data-error]::after {
   left: 21%;
   top: 19%;
 }
+
+.error-message {
+  color: red;
+  font-size: 14px;
+}
+
 .close {
   position: absolute;
   right: 15px;
@@ -526,4 +533,3 @@ footer {
     opacity: 1;
   }
 }
-
