@@ -238,6 +238,7 @@ input[data-error]::after {
   margin-left: 36px;
   font-size: 12px;
   font-weight: normal;
+  margin-bottom: 0;
 }
 .checkbox-label .checkbox-icon,
 .radio-label .radio-icon {
@@ -300,7 +301,8 @@ input[data-error]::after {
 
 .error-message {
   color: red;
-  font-size: 14px;
+  font-size: 12px;
+  font-weight: bold;
 }
 
 .close {
@@ -332,7 +334,7 @@ input[data-error]::after {
 .btn-signup {
   background: #fe142f;
   display: block;
-  margin: 0 auto;
+  margin: 14px auto 0 auto;
   border-radius: 7px;
   font-size: 1rem;
   padding: 12px 82px;

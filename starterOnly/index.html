@@ -53,30 +53,35 @@
           <div class="modal-body">
 
             <form name="reserve" action="index.html" method="get" id="validation-form" onsubmit="return validate();">
+
               <div class="formData">
                 <label for="first">Prénom</label><br>
-                <input class="text-control" type="text" id="first" name="first" minlength="2"/><br>
+                <input class="text-control" type="text" id="first" name="first" /><br>
                 <span id="errorFirstName" class="error-message"></span>
               </div>
 
               <div class="formData">
                 <label for="last">Nom</label><br>
                 <input class="text-control" type="text" id="last"  name="last"/><br>
+                <span id="errorLastName" class="error-message"></span>
               </div>
 
               <div class="formData">
                 <label for="email">E-mail</label><br>
                 <input class="text-control" type="email" id="email" name="email"/><br>
+                <span id="errorEmail" class="error-message"></span>
               </div>
 
               <div class="formData">
                 <label for="birthdate">Date de naissance</label><br>
                 <input class="text-control" type="date" id="birthdate" name="birthdate"/><br>
+                <span id="errorBirthdate" class="error-message"></span>
               </div>
 
               <div class="formData">
-                <label for="quantity">À combien de tournois GameOn avez-vous déjà participé ?</label><br>
+                <label for="quantity">À combien de tournois GameOn avez-vous déjà participé ?</label>
                 <input type="number" class="text-control" id="quantity" name="quantity" min="0" max="99">
+                <span id="errorQuantity" class="error-message"></span>
               </div>
 
               <p class="text-label">A quel tournoi souhaitez-vous participer cette année ?</p>
@@ -115,7 +120,8 @@
                 <label class="radio-label" for="location6">
                   <span class="radio-icon"></span>
                   Portland
-                </label>
+                </label><br>
+                <span id="errorCity" class="error-message"></span>
               </div>
 
               <div class="formData">
@@ -124,7 +130,10 @@
                   <span class="checkbox-icon"></span>
                   J'ai lu et accepté les conditions d'utilisation.
                 </label>
-                <br>
+                <span id="checkbox-empty" class="error-message"></span>
+              </div>
+
+              <div class="formData">
                 <input class="checkbox-input" type="checkbox" id="checkbox2"/>
                 <label class="checkbox-label" for="checkbox2">
                   <span class="checkbox-icon"></span>

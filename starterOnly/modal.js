@@ -1,7 +1,7 @@
 function editNav() {
   var x = document.getElementById("myTopnav");
   if (x.className === "topnav") {
-    x.className += " responsive";
+    x.className += "responsive";
   } else {
     x.className = "topnav";
   }
@@ -17,9 +17,10 @@ const first = document.getElementById("first");
 const last = document.getElementById("last");
 const email = document.getElementById("email");
 const birthdate = document.getElementById("birthdate");
-const checkBoxGtu = document.getElementById("checkbox1");
-const checkBoxEmpty = document.getElementById("checkbox-empty");
-const cities = document.querySelectorAll(".city");
+const quantity = document.getElementById("quantity");
+const checkboxGtu = document.getElementById("checkbox1");
+const checkboxEmpty = document.getElementById("checkbox-empty");
+const cities = document.querySelectorAll(".radio-input");
 const errorEmptyField = document.getElementById("errorEmptyField");
 
 // launch modal event
@@ -30,13 +31,10 @@ function launchModal() {
   modalbg.style.display = "block";
 }
 
-// close modal form
-function closeModal() {
-  modalbg.style.display = "none";
-}
-
 // close modal event
-modalCloseBtn[0].addEventListener("click", closeModal);
+modalCloseBtn[0].addEventListener("click", () => {
+  modalbg.style.display = "none";
+});
 
 // Error messages array
 let errors = [
@@ -47,8 +45,9 @@ let errors = [
   "Veuillez entrer 2 caractères ou plus pour le champ du nom.",
   "L'adresse email n'est pas valide.",
   "La date de naissance renseignée n'est pas valide.",
-  "Vous devez choisir une option",
-  "Vous devez vérifier que vous acceptez les termes et conditions."
+  "Veuillez renseigner votre nombre de participation.",
+  "Vous devez choisir une ville.",
+  "<br>Vous devez acceptez les termes et conditions pour participer.",
 ];
 
 // Checking form validation
@@ -59,6 +58,8 @@ document.getElementById("validation-form").addEventListener("submit", (e) => {
 
   // Checking inputs with regex
   let regexName = /^[a-zA-Z-\s]+$/;
+  let regexEmail = /^("(?:[!#-\[\]-\u{10FFFF}]|\\[\t -\u{10FFFF}])*"|[!#-'*+\-/-9=?A-Z\^-\u{10FFFF}](?:\.?[!#-'*+\-/-9=?A-Z\^-\u{10FFFF}])*)@([!#-'*+\-/-9=?A-Z\^-\u{10FFFF}](?:\.?[!#-'*+\-/-9=?A-Z\^-\u{10FFFF}])*|\[[!-Z\^-\u{10FFFF}]*\])$/u;
+  let regexBirthdate = /^((19[3-9]+[0-9]|200[0-9])-(0?[1-9]|1[0-2])-(0?[1-9]|[12]\d|3[01])|(0?[1-9]|[12]\d|3[01])[/](0?[1-9]|1[0-2])[/](19[3-9]+[0-9]|200[0-6]))$/;
 
   // Condition to check all the fields
   for (let i = 0; i < textControl.length; i++) {
@@ -66,7 +67,7 @@ document.getElementById("validation-form").addEventListener("submit", (e) => {
     if (textControl[i].value == "") {
       error = true;
       errorEmptyField.innerHTML = errors[0];
-      errorEmptyField.style.fontSize = "16px";
+      errorEmptyField.style.fontSize = "14px";
     } else {
       errorEmptyField.innerHTML = "";
     }
@@ -75,15 +76,79 @@ document.getElementById("validation-form").addEventListener("submit", (e) => {
     if (regexName.test(first.value) == false && first.value != "") {
       const errorFirstName = document.getElementById("errorFirstName");
       error = true;
-      errorFirstName.textContent = errors[2];
+      errorFirstName.textContent = errors[1];
+      textControl[0].style.border = "4px solid red";
     } else if (first.value.length <= 1) {
       error = true;
       errorFirstName.textContent = errors[2];
+      textControl[0].style.border = "4px solid red";
     } else {
       errorFirstName.textContent = "";
+      textControl[0].style.border = "none";
+    }
+
+    // Checking lastname input
+    if (regexName.test(last.value) == false && last.value != "") {
+      const errorLastName = document.getElementById("errorLastName");
+      error = true;
+      errorLastName.textContent = errors[3];
+    } else if (last.value.length <= 1) {
+      error = true;
+      errorLastName.textContent = errors[4];
+    } else {
+      errorLastName.textContent = "";
+    }
+
+    // Checking email input
+    if (regexEmail.test(email.value) == false && email.value == "") {
+      const errorEmail = document.getElementById("errorEmail");
+      error = true;
+      errorEmail.textContent = errors[5];
+    } else {
+      errorEmail.textContent = "";
+    }
+
+    // Checking birthdate input
+    if (regexBirthdate.test(birthdate.value) == false) {
+      const errorBirthdate = document.getElementById("errorBirthdate");
+      error = true;
+      errorBirthdate.textContent = errors[6];
+    } else {
+      errorBirthdate.textContent = "";
+    }
+
+    // Checking the number of particpations
+    if (quantity.value == "") {
+      error = true;
+      errorQuantity.innerHTML = errors[7];
+    } else {
+      errorQuantity.textContent = "";
+    }
+
+    // Checking radiobutton city input
+    let valid = false;
+    for (let i = 0; i < cities.length; i++) {
+      if (cities[i].checked) {
+        valid = true;
+        const errorCity = document.getElementById("errorCity");
+        errorCity.innerHTML = "";
+        break
+      } else {
+        error = true;
+        errorCity.textContent = errors[8];
+      }
+    }
+
+    // Checking checkbox GTU input
+    if (checkboxGtu.checked == false) {
+      error = true;
+      checkboxEmpty.innerHTML = errors[9];
+    } else {
+      checkboxEmpty.innerHTML = "";
     }
   }
 
+  // Checking that there is no error detected
   if (error) {
     e.preventDefault();
     return false;
