@@ -24,16 +24,17 @@ const checkboxGtu = document.getElementById("checkbox1");
 const checkboxEmpty = document.getElementById("checkbox-empty");
 const cities = document.querySelectorAll(".radio-input");
 const errorEmptyField = document.getElementById("errorEmptyField");
+const validationModal = document.querySelector(".validation-modal");
+const form = document.querySelector("form");
+const modalBody = document.querySelector(".modal-body");
+const validClose = document.getElementById("validation-close");
 
-// launch modal event
-modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
-
-// launch modal form
-function launchModal() {
+// launch modal
+modalBtn.forEach((btn) => btn.addEventListener("click", () => {
   modalbg.style.display = "block";
-}
+}));
 
-// close modal event
+// close modal
 modalCloseBtn[0].addEventListener("click", () => {
   modalbg.style.display = "none";
 });
@@ -59,7 +60,7 @@ document.getElementById("validation-form").addEventListener("submit", (e) => {
   let error;
 
   // Checking inputs with regex
-  let regexName = /^[a-zA-Z-\s]+$/;
+  let regexName = /^[a-zA-Z\-éëàèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇÆæœ]{2,}$/;
   let regexEmail = /^("(?:[!#-\[\]-\u{10FFFF}]|\\[\t -\u{10FFFF}])*"|[!#-'*+\-/-9=?A-Z\^-\u{10FFFF}](?:\.?[!#-'*+\-/-9=?A-Z\^-\u{10FFFF}])*)@([!#-'*+\-/-9=?A-Z\^-\u{10FFFF}](?:\.?[!#-'*+\-/-9=?A-Z\^-\u{10FFFF}])*|\[[!-Z\^-\u{10FFFF}]*\])$/u;
   let regexBirthdate = /^((19[3-9]+[0-9]|200[0-9])-(0?[1-9]|1[0-2])-(0?[1-9]|[12]\d|3[01])|(0?[1-9]|[12]\d|3[01])[/](0?[1-9]|1[0-2])[/](19[3-9]+[0-9]|200[0-6]))$/;
   let regexQuantity = /^[0-9]*$/;
@@ -80,14 +81,15 @@ document.getElementById("validation-form").addEventListener("submit", (e) => {
       const errorFirstName = document.getElementById("errorFirstName");
       error = true;
       errorFirstName.textContent = errors[1];
-      textControl[0].style.border = "2px dashed #e54858";
+      first.className = "text-control error-border";
     } else if (first.value.length <= 1) {
       error = true;
       errorFirstName.textContent = errors[2];
-      textControl[0].style.border = "2px dashed #e54858";
+      first.className = "text-control error-border";
     } else {
       errorFirstName.textContent = "";
-      textControl[0].style.border = "none";
+      //textControl[0].style.border = "none";
+      first.className = "text-control";
     }
 
     // Checking lastname input
@@ -95,14 +97,14 @@ document.getElementById("validation-form").addEventListener("submit", (e) => {
       const errorLastName = document.getElementById("errorLastName");
       error = true;
       errorLastName.textContent = errors[3];
-      textControl[1].style.border = "3px solid #e54858";
+      last.className = "text-control error-border";
     } else if (last.value.length <= 1) {
       error = true;
       errorLastName.textContent = errors[4];
-      textControl[1].style.border = "3px solid #e54858";
+      last.className = "text-control error-border";
     } else {
       errorLastName.textContent = "";
-      textControl[1].style.border = "none";
+      last.className = "text-control";
     }
 
     // Checking email input
@@ -110,10 +112,10 @@ document.getElementById("validation-form").addEventListener("submit", (e) => {
       const errorEmail = document.getElementById("errorEmail");
       error = true;
       errorEmail.textContent = errors[5];
-      textControl[2].style.border = "3px solid #e54858";
+      email.className = "text-control error-border";
     } else {
       errorEmail.textContent = "";
-      textControl[2].style.border = "none";
+      email.className = "text-control";
     }
 
     // Checking birthdate input
@@ -121,50 +123,59 @@ document.getElementById("validation-form").addEventListener("submit", (e) => {
       const errorBirthdate = document.getElementById("errorBirthdate");
       error = true;
       errorBirthdate.textContent = errors[6];
-      textControl[3].style.border = "3px solid #e54858";
+      birthdate.className = "text-control error-border";
     } else {
       errorBirthdate.textContent = "";
-      textControl[3].style.border = "none";
+      birthdate.className = "text-control";
     }
+  }
 
-    // Checking the number of participations
-    if (regexQuantity.test(quantity.value) == false || quantity.value == "") {
-      error = true;
-      errorQuantity.textContent = errors[7];
-      textControl[4].style.border = "3px solid #e54858";
-    } else {
-      errorQuantity.textContent = "";
-      textControl[4].style.border = "none";
-    }
+  // Checking the number of participations
+  if (regexQuantity.test(quantity.value) == false || quantity.value == "") {
+    error = true;
+    errorQuantity.textContent = errors[7];
+    quantity.className = "text-control error-border";
+  } else {
+    errorQuantity.textContent = "";
+    quantity.className = "text-control";
+  }
 
-    // Checking radiobutton city input
-    let valid = false;
-    for (let i = 0; i < cities.length; i++) {
-      if (cities[i].checked) {
-        valid = true;
-        const errorCity = document.getElementById("errorCity");
-        errorCity.textContent = "";
-        break
-      } else {
-        error = true;
-        errorCity.textContent = errors[8];
-        textControl[0].style.border = "3px solid #e54858";
-      }
+  let valid = false;
+  for (let i = 0; i < cities.length; i++) {
+    if (cities[i].checked) {
+      valid = true
     }
+  }
 
-    // Checking checkbox GTU input
-    if (checkboxGtu.checked == false) {
-      error = true;
-      checkboxEmpty.innerHTML = errors[9];
-      textControl[0].style.border = "3px solid #e54858";
-    } else {
-      checkboxEmpty.textContent = "";
-    }
+  if (valid) {
+    const errorCity = document.getElementById("errorCity");
+    errorCity.textContent = "";
+  } else {
+    error = true;
+    errorCity.textContent = errors[8];
+  }
+
+  // Checking checkbox GTU input
+  if (checkboxGtu.checked == false) {
+    error = true;
+    checkboxEmpty.innerHTML = errors[9];
+  } else {
+    checkboxEmpty.textContent = "";
   }
 
   // Checking that there is no error detected
   if (error) {
     e.preventDefault();
     return false;
+  } else {
+    e.preventDefault();
+    form.style.display = "none";
+    validationModal.className = "validation-block";
+    modalBody.classList.add("validation");
   }
+
+  // Submitting form
+  document.querySelector(".btn-close-form").addEventListener("click", () => {
+    form.submit();
+  });
 });

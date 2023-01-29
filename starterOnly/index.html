@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css?family=DM+Sans" rel="stylesheet"/>
     <link rel="stylesheet" href="modal.css" />
   </head>
+
   <body>
 
     <div class="topnav" id="myTopnav">
@@ -15,7 +16,7 @@
         <img alt="logo" src="Logo.png"/>
       </div>
 
-      <div class="main-navbar">
+      <nav class="main-navbar">
         <a href="#" class="active"><span>Détails de l'évènement</span></a>
         <a href="#"><span>À propos</span></a>
         <a href="#"><span>Contact</span></a>
@@ -23,7 +24,7 @@
         <a href="javascript:void(0);" class="icon" onclick="editNav()">
           <i class="fa fa-bars"></i>
         </a>
-      </div>
+      </nav>
     </div>
 
     <main>
@@ -51,11 +52,11 @@
           <span class="close"></span>
           <div class="modal-body">
 
-            <form name="reserve" action="index.html" method="get" id="validation-form" onsubmit="return validate();">
+            <form name="reserve" action="index.html" method="get" id="validation-form" novalidate>
 
               <div class="formData">
                 <label for="first">Prénom</label><br>
-                <input class="text-control" type="text" id="first" name="first" /><br>
+                <input class="text-control" type="text" id="first" name="first" minlength="2"/><br>
                 <span id="errorFirstName" class="error-message"></span>
               </div>
 
@@ -124,7 +125,7 @@
               </div>
 
               <div class="formData">
-                <input class="checkbox-input" type="checkbox" id="checkbox1" checked/>
+                <input class="checkbox-input" type="checkbox" id="checkbox1"/>
                 <label class="checkbox-label" for="checkbox1" required>
                   <span class="checkbox-icon"></span>
                   J'ai lu et accepté les conditions d'utilisation.
@@ -141,9 +142,14 @@
                 <br>
               </div>
 
-              <input class="btn-submit" type="submit" class="button" value="C'est parti"/>
+              <input class="btn-submit button" type="submit" value="C'est parti"/>
               <span id="errorEmptyField" class="error-message"></span>
             </form>
+
+            <div class="validation-modal">
+              <div class="validation-message">Merci pour votre inscription</div>
+              <button type="submit" class="btn-close-form button" id="validation-close">Fermer</button>
+            </div>
 
           </div>
         </div>
