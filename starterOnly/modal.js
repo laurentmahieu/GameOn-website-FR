@@ -1,5 +1,4 @@
 // Navbar Header
-
 function editNav() {
   var x = document.getElementById("myTopnav");
   if (x.className === "topnav") {
@@ -28,6 +27,7 @@ const validationModal = document.querySelector(".validation-modal");
 const form = document.querySelector("form");
 const modalBody = document.querySelector(".modal-body");
 const validClose = document.getElementById("validation-close");
+const modalSubmitBtn = document.querySelector(".btn-submit");
 
 // launch modal
 modalBtn.forEach((btn) => btn.addEventListener("click", () => {
@@ -40,106 +40,153 @@ modalCloseBtn[0].addEventListener("click", () => {
 });
 
 // Error messages array
-let errors = [
-  "Tous les champs doivent-être renseignés.",
-  "Le prénom ne doit comporter que des lettres ou des tirets.",
-  "Veuillez entrer 2 caractères ou plus pour le champ du prénom.",
-  "Le nom ne doit comporter que des lettres ou des tirets.",
-  "Veuillez entrer 2 caractères ou plus pour le champ du nom.",
-  "L'adresse email n'est pas valide.",
-  "La date de naissance renseignée n'est pas valide.",
-  "Veuillez renseigner votre nombre de participation.",
-  "Vous devez choisir une ville.",
-  "<br>Vous devez acceptez les termes et conditions pour participer.",
-];
+const errors = {
+  allFilled: "Tous les champs doivent-être renseignés.",
+  invalidFirst: "Le prénom ne doit comporter que des lettres ou des tirets.",
+  minFirstLetters: "Veuillez entrer 2 caractères ou plus pour le champ du prénom.",
+  invalidLast: "Le nom ne doit comporter que des lettres ou des tirets.",
+  minLastLetters: "Veuillez entrer 2 caractères ou plus pour le champ du nom.",
+  invalidMail: "L'adresse email n'est pas valide.",
+  invalidDate: "La date de naissance renseignée n'est pas valide.",
+  invalidQuantity: "Veuillez renseigner votre nombre de participation.",
+  invalidCity: "Vous devez choisir une ville.",
+  invalidCGU: "<br>Vous devez acceptez les termes et conditions pour participer.",
+};
 
-// Checking form validation
-document.getElementById("validation-form").addEventListener("submit", (e) => {
+// Checking inputs with regex
+const regexName = /^[a-zA-Z\-éëàèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇÆæœ]{2,}$/;
+const regexEmail = /^("(?:[!#-\[\]-\u{10FFFF}]|\\[\t -\u{10FFFF}])*"|[!#-'*+\-/-9=?A-Z\^-\u{10FFFF}](?:\.?[!#-'*+\-/-9=?A-Z\^-\u{10FFFF}])*)@([!#-'*+\-/-9=?A-Z\^-\u{10FFFF}](?:\.?[!#-'*+\-/-9=?A-Z\^-\u{10FFFF}])*|\[[!-Z\^-\u{10FFFF}]*\])$/u;
+const regexBirthdate = /^((19[3-9]+[0-9]|200[0-9])-(0?[1-9]|1[0-2])-(0?[1-9]|[12]\d|3[01])|(0?[1-9]|[12]\d|3[01])[/](0?[1-9]|1[0-2])[/](19[3-9]+[0-9]|200[0-6]))$/;
+const regexQuantity = /^[0-9]*$/;
 
-  // Error variable initialized
-  let error;
+// Condition to check all the fields
+let errorField = 0;
 
-  // Checking inputs with regex
-  let regexName = /^[a-zA-Z\-éëàèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇÆæœ]{2,}$/;
-  let regexEmail = /^("(?:[!#-\[\]-\u{10FFFF}]|\\[\t -\u{10FFFF}])*"|[!#-'*+\-/-9=?A-Z\^-\u{10FFFF}](?:\.?[!#-'*+\-/-9=?A-Z\^-\u{10FFFF}])*)@([!#-'*+\-/-9=?A-Z\^-\u{10FFFF}](?:\.?[!#-'*+\-/-9=?A-Z\^-\u{10FFFF}])*|\[[!-Z\^-\u{10FFFF}]*\])$/u;
-  let regexBirthdate = /^((19[3-9]+[0-9]|200[0-9])-(0?[1-9]|1[0-2])-(0?[1-9]|[12]\d|3[01])|(0?[1-9]|[12]\d|3[01])[/](0?[1-9]|1[0-2])[/](19[3-9]+[0-9]|200[0-6]))$/;
-  let regexQuantity = /^[0-9]*$/;
-
-  // Condition to check all the fields
+function filledField() {
   for (let i = 0; i < textControl.length; i++) {
     // Checking that the fields are filled
     if (textControl[i].value == "") {
-      error = true;
-      errorEmptyField.textContent = errors[0];
+      errorEmptyField.textContent = errors.allFilled;
       errorEmptyField.style.fontSize = "14px";
+      errorField = 1;
     } else {
-      errorEmptyField.textContent = "";
-    }
-
-    // Checking firstname input
-    if (regexName.test(first.value) == false && first.value != "") {
-      const errorFirstName = document.getElementById("errorFirstName");
-      error = true;
-      errorFirstName.textContent = errors[1];
-      first.className = "text-control error-border";
-    } else if (first.value.length <= 1) {
-      error = true;
-      errorFirstName.textContent = errors[2];
-      first.className = "text-control error-border";
-    } else {
-      errorFirstName.textContent = "";
-      //textControl[0].style.border = "none";
-      first.className = "text-control";
-    }
-
-    // Checking lastname input
-    if (regexName.test(last.value) == false && last.value != "") {
-      const errorLastName = document.getElementById("errorLastName");
-      error = true;
-      errorLastName.textContent = errors[3];
-      last.className = "text-control error-border";
-    } else if (last.value.length <= 1) {
-      error = true;
-      errorLastName.textContent = errors[4];
-      last.className = "text-control error-border";
-    } else {
-      errorLastName.textContent = "";
-      last.className = "text-control";
-    }
-
-    // Checking email input
-    if (regexEmail.test(email.value) == false && email.value == "") {
-      const errorEmail = document.getElementById("errorEmail");
-      error = true;
-      errorEmail.textContent = errors[5];
-      email.className = "text-control error-border";
-    } else {
-      errorEmail.textContent = "";
-      email.className = "text-control";
-    }
-
-    // Checking birthdate input
-    if (regexBirthdate.test(birthdate.value) == false) {
-      const errorBirthdate = document.getElementById("errorBirthdate");
-      error = true;
-      errorBirthdate.textContent = errors[6];
-      birthdate.className = "text-control error-border";
-    } else {
-      errorBirthdate.textContent = "";
-      birthdate.className = "text-control";
-    }
+      errorField = 0;
+    };
   }
+}
 
-  // Checking the number of participations
+// Checking firstname input
+let errorFirst = 0;
+
+function firstName() {
+  if (regexName.test(first.value) == false && first.value != "") {
+    const errorFirstName = document.getElementById("errorFirstName");
+    errorFirstName.textContent = errors.invalidFirst;
+    first.className = "text-control error-border";
+    errorFirst = 1;
+  } else if (first.value.length <= 1) {
+    errorFirstName.textContent = errors.minFirstLetters;
+    first.className = "text-control error-border";
+    errorFirst = 1;
+  } else {
+    errorFirstName.textContent = "";
+    first.className = "text-control";
+    errorFirst = 0;
+  }
+};
+
+first.addEventListener("focusout", () => {
+  firstName();
+});
+
+// Checking lastname input
+let errorLast = 0;
+
+function lastName() {
+  if (regexName.test(last.value) == false && last.value != "") {
+    const errorLastName = document.getElementById("errorLastName");
+    errorLastName.textContent = errors.invalidLast;
+    last.className = "text-control error-border";
+    errorLast = 1;
+  } else if (last.value.length <= 1) {
+    errorLastName.textContent = errors.minLastLetters;
+    last.className = "text-control error-border";
+    errorLast = 1;
+  } else {
+    errorLastName.textContent = "";
+    last.className = "text-control";
+    errorLast = 0;
+  }
+};
+
+last.addEventListener("focusout", () => {
+  lastName();
+});
+
+// Checking email input
+let errorMail = 0;
+
+function mailAddress() {
+  if (regexEmail.test(email.value) == false && email.value == "") {
+    const errorEmail = document.getElementById("errorEmail");
+    errorEmail.textContent = errors.invalidMail;
+    email.className = "text-control error-border";
+    errorMail = 1;
+  } else {
+    errorEmail.textContent = "";
+    email.className = "text-control";
+    errorMail = 0;
+  }
+};
+
+email.addEventListener("focusout", () => {
+  mailAddress();
+});
+
+// Checking birthdate input
+let errorBirth = 0;
+
+function dateOfBirth() {
+  if (regexBirthdate.test(birthdate.value) == false) {
+    const errorBirthdate = document.getElementById("errorBirthdate");
+    errorBirthdate.textContent = errors.invalidDate;
+    birthdate.className = "text-control error-border";
+    errorBirth = 1;
+  } else {
+    errorBirthdate.textContent = "";
+    birthdate.className = "text-control";
+    errorBirth = 0;
+  }
+};
+
+birthdate.addEventListener("focusout", () => {
+  dateOfBirth();
+});
+
+
+// Checking the number of participations
+let errorParticipations = 0;
+
+function numberOfParticipations() {
   if (regexQuantity.test(quantity.value) == false || quantity.value == "") {
-    error = true;
-    errorQuantity.textContent = errors[7];
+    errorQuantity.textContent = errors.invalidQuantity;
     quantity.className = "text-control error-border";
+    errorParticipations = 1;
   } else {
     errorQuantity.textContent = "";
     quantity.className = "text-control";
+    errorParticipations = 0;
   }
+};
 
+quantity.addEventListener("focusout", () => {
+  numberOfParticipations();
+});
+
+// Checking the city choice
+let errorCities = 0;
+
+function cityParticipation() {
   let valid = false;
   for (let i = 0; i < cities.length; i++) {
     if (cities[i].checked) {
@@ -150,32 +197,45 @@ document.getElementById("validation-form").addEventListener("submit", (e) => {
   if (valid) {
     const errorCity = document.getElementById("errorCity");
     errorCity.textContent = "";
+    errorCities = 0;
   } else {
-    error = true;
-    errorCity.textContent = errors[8];
+    errorCity.textContent = errors.invalidCity;
+    errorCities = 0;
   }
+};
 
-  // Checking checkbox GTU input
+// Checking checkbox GTU input
+let errorCheck = 0;
+
+function checkedCGU() {
   if (checkboxGtu.checked == false) {
-    error = true;
-    checkboxEmpty.innerHTML = errors[9];
+    checkboxEmpty.innerHTML = errors.invalidCGU;
+    errorCheck = true;
   } else {
     checkboxEmpty.textContent = "";
+    errorCheck = 0;
   }
+};
 
-  // Checking that there is no error detected
-  if (error) {
-    e.preventDefault();
-    return false;
-  } else {
-    e.preventDefault();
+modalSubmitBtn.addEventListener("click", (e) => {
+// Checking that there is no error detected
+  firstName();
+  lastName();
+  mailAddress();
+  dateOfBirth();
+  numberOfParticipations();
+  cityParticipation();
+  checkedCGU();
+  filledField();+
+  e.preventDefault();
+  if (errorField + errorFirst + errorLast + errorMail + errorBirth + errorParticipations + errorCities + errorCheck == 0) {
     form.style.display = "none";
     validationModal.className = "validation-block";
     modalBody.classList.add("validation");
   }
+});
 
-  // Submitting form
-  document.querySelector(".btn-close-form").addEventListener("click", () => {
-    form.submit();
-  });
+// Submitting form
+document.querySelector(".btn-close-form").addEventListener("click", () => {
+  form.submit();
 });

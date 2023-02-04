@@ -628,21 +628,21 @@ footer {
 }
 
 .validation-block {
-  display: block;
-  width: 100%;
-  height: 100%;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 270px;
+  margin-top: auto;
 }
 
 .validation-message {
-  position: absolute;
-  top: 50%;
-  left: 19%;
-  margin: -25px 0 0 -25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 #validation-close {
-  position: absolute;
-  top: 91%;
-  left: 23%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
