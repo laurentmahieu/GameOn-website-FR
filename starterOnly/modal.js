@@ -55,7 +55,7 @@ const errors = {
 
 // Checking inputs with regex
 const regexName = /^[a-zA-Z\-éëàèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇÆæœ]{2,}$/;
-const regexEmail = /^("(?:[!#-\[\]-\u{10FFFF}]|\\[\t -\u{10FFFF}])*"|[!#-'*+\-/-9=?A-Z\^-\u{10FFFF}](?:\.?[!#-'*+\-/-9=?A-Z\^-\u{10FFFF}])*)@([!#-'*+\-/-9=?A-Z\^-\u{10FFFF}](?:\.?[!#-'*+\-/-9=?A-Z\^-\u{10FFFF}])*|\[[!-Z\^-\u{10FFFF}]*\])$/u;
+const regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 const regexBirthdate = /^((19[3-9]+[0-9]|200[0-9])-(0?[1-9]|1[0-2])-(0?[1-9]|[12]\d|3[01])|(0?[1-9]|[12]\d|3[01])[/](0?[1-9]|1[0-2])[/](19[3-9]+[0-9]|200[0-6]))$/;
 const regexQuantity = /^[0-9]*$/;
 
@@ -95,6 +95,10 @@ function firstName() {
   }
 };
 
+first.oninput = () => {
+  firstName();
+};
+
 first.addEventListener("focusout", () => {
   firstName();
 });
@@ -119,6 +123,10 @@ function lastName() {
   }
 };
 
+last.oninput = () => {
+  lastName();
+};
+
 last.addEventListener("focusout", () => {
   lastName();
 });
@@ -127,7 +135,7 @@ last.addEventListener("focusout", () => {
 let errorMail = 0;
 
 function mailAddress() {
-  if (regexEmail.test(email.value) == false && email.value == "") {
+  if (regexEmail.test(email.value) == false || email.value == "") {
     const errorEmail = document.getElementById("errorEmail");
     errorEmail.textContent = errors.invalidMail;
     email.className = "text-control error-border";
@@ -137,6 +145,10 @@ function mailAddress() {
     email.className = "text-control";
     errorMail = 0;
   }
+};
+
+email.oninput = () => {
+  mailAddress();
 };
 
 email.addEventListener("focusout", () => {
@@ -159,6 +171,10 @@ function dateOfBirth() {
   }
 };
 
+birthdate.oninput = () => {
+  dateOfBirth();
+};
+
 birthdate.addEventListener("focusout", () => {
   dateOfBirth();
 });
@@ -177,6 +193,10 @@ function numberOfParticipations() {
     quantity.className = "text-control";
     errorParticipations = 0;
   }
+};
+
+quantity.onchange = () => {
+  numberOfParticipations();
 };
 
 quantity.addEventListener("focusout", () => {
@@ -204,6 +224,18 @@ function cityParticipation() {
   }
 };
 
+cities.forEach((btn) =>
+  btn.addEventListener("change", () => {
+    const checkedButtons = document.querySelector("input[name='location']:checked");
+    if (checkedButtons != null) {
+      const errorCity = document.getElementById("errorCity");
+      errorCity.textContent = "";
+    } else {
+      errorCity.textContent = errors.invalidCity;
+    }
+  })
+);
+
 // Checking checkbox GTU input
 let errorCheck = 0;
 
@@ -217,6 +249,10 @@ function checkedCGU() {
   }
 };
 
+checkboxGtu.addEventListener("change", function() {
+  this.checked ? (checkboxEmpty.textContent = "") : (checkboxEmpty.innerHTML = errors.invalidCGU);
+});
+
 modalSubmitBtn.addEventListener("click", (e) => {
 // Checking that there is no error detected
   firstName();
@@ -226,7 +262,7 @@ modalSubmitBtn.addEventListener("click", (e) => {
   numberOfParticipations();
   cityParticipation();
   checkedCGU();
-  filledField();+
+  filledField();
   e.preventDefault();
   if (errorField + errorFirst + errorLast + errorMail + errorBirth + errorParticipations + errorCities + errorCheck == 0) {
     form.style.display = "none";
