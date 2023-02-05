@@ -65,7 +65,7 @@ let errorField = 0;
 function filledField() {
   for (let i = 0; i < textControl.length; i++) {
     // Checking that the fields are filled
-    if (textControl[i].value == "") {
+    if (textControl[i].value === "") {
       errorEmptyField.textContent = errors.allFilled;
       errorEmptyField.style.fontSize = "14px";
       errorField = 1;
@@ -73,13 +73,19 @@ function filledField() {
       errorField = 0;
     };
   }
-}
+};
+
+textControl.forEach((field) =>
+  field.addEventListener("focusout", () => {
+    filledField();
+  })
+);
 
 // Checking firstname input
 let errorFirst = 0;
 
 function firstName() {
-  if (regexName.test(first.value) == false && first.value != "") {
+  if (regexName.test(first.value) === false && first.value !== "") {
     const errorFirstName = document.getElementById("errorFirstName");
     errorFirstName.textContent = errors.invalidFirst;
     first.className = "text-control error-border";
@@ -107,7 +113,7 @@ first.addEventListener("focusout", () => {
 let errorLast = 0;
 
 function lastName() {
-  if (regexName.test(last.value) == false && last.value != "") {
+  if (regexName.test(last.value) === false && last.value !== "") {
     const errorLastName = document.getElementById("errorLastName");
     errorLastName.textContent = errors.invalidLast;
     last.className = "text-control error-border";
@@ -135,7 +141,7 @@ last.addEventListener("focusout", () => {
 let errorMail = 0;
 
 function mailAddress() {
-  if (regexEmail.test(email.value) == false || email.value == "") {
+  if (regexEmail.test(email.value) === false || email.value === "") {
     const errorEmail = document.getElementById("errorEmail");
     errorEmail.textContent = errors.invalidMail;
     email.className = "text-control error-border";
@@ -159,7 +165,7 @@ email.addEventListener("focusout", () => {
 let errorBirth = 0;
 
 function dateOfBirth() {
-  if (regexBirthdate.test(birthdate.value) == false) {
+  if (regexBirthdate.test(birthdate.value) === false) {
     const errorBirthdate = document.getElementById("errorBirthdate");
     errorBirthdate.textContent = errors.invalidDate;
     birthdate.className = "text-control error-border";
@@ -184,7 +190,7 @@ birthdate.addEventListener("focusout", () => {
 let errorParticipations = 0;
 
 function numberOfParticipations() {
-  if (regexQuantity.test(quantity.value) == false || quantity.value == "") {
+  if (regexQuantity.test(quantity.value) === false || quantity.value === "") {
     errorQuantity.textContent = errors.invalidQuantity;
     quantity.className = "text-control error-border";
     errorParticipations = 1;
@@ -227,7 +233,7 @@ function cityParticipation() {
 cities.forEach((btn) =>
   btn.addEventListener("change", () => {
     const checkedButtons = document.querySelector("input[name='location']:checked");
-    if (checkedButtons != null) {
+    if (checkedButtons !== null) {
       const errorCity = document.getElementById("errorCity");
       errorCity.textContent = "";
     } else {
@@ -240,7 +246,7 @@ cities.forEach((btn) =>
 let errorCheck = 0;
 
 function checkedCGU() {
-  if (checkboxGtu.checked == false) {
+  if (checkboxGtu.checked === false) {
     checkboxEmpty.innerHTML = errors.invalidCGU;
     errorCheck = true;
   } else {
@@ -264,7 +270,7 @@ modalSubmitBtn.addEventListener("click", (e) => {
   checkedCGU();
   filledField();
   e.preventDefault();
-  if (errorField + errorFirst + errorLast + errorMail + errorBirth + errorParticipations + errorCities + errorCheck == 0) {
+  if (errorField + errorFirst + errorLast + errorMail + errorBirth + errorParticipations + errorCities + errorCheck === 0) {
     form.style.display = "none";
     validationModal.className = "validation-block";
     modalBody.classList.add("validation");
