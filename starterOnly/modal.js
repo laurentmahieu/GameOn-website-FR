@@ -41,7 +41,6 @@ modalCloseBtn[0].addEventListener("click", () => {
 
 // Error messages array
 const errors = {
-  allFilled: "Tous les champs doivent-être renseignés.",
   invalidFirst: "Le prénom ne doit comporter que des lettres ou des tirets.",
   minFirstLetters: "Veuillez entrer 2 caractères ou plus pour le champ du prénom.",
   invalidLast: "Le nom ne doit comporter que des lettres ou des tirets.",
@@ -58,22 +57,6 @@ const regexName = /^[a-zA-Z\-éëàèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâ�
 const regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 const regexBirthdate = /^((19[3-9]+[0-9]|200[0-9])-(0?[1-9]|1[0-2])-(0?[1-9]|[12]\d|3[01])|(0?[1-9]|[12]\d|3[01])[/](0?[1-9]|1[0-2])[/](19[3-9]+[0-9]|200[0-6]))$/;
 const regexQuantity = /^[0-9]*$/;
-
-// Condition to check all the fields
-let errorField = 0;
-
-function filledField() {
-  for (let i = 0; i < textControl.length; i++) {
-    // Checking that the fields are filled
-    if (textControl[i].value === "") {
-      errorEmptyField.textContent = errors.allFilled;
-      errorEmptyField.style.fontSize = "14px";
-      errorField = 1;
-    } else {
-      errorField = 0;
-    };
-  }
-};
 
 // Checking firstname input
 let errorFirst = 0;
@@ -262,9 +245,8 @@ modalSubmitBtn.addEventListener("click", (e) => {
   numberOfParticipations();
   cityParticipation();
   checkedCGU();
-  filledField();
   e.preventDefault();
-  if (errorField + errorFirst + errorLast + errorMail + errorBirth + errorParticipations + errorCities + errorCheck === 0) {
+  if (errorFirst + errorLast + errorMail + errorBirth + errorParticipations + errorCities + errorCheck === 0) {
     form.style.display = "none";
     validationModal.className = "validation-block";
     modalBody.classList.add("validation");
