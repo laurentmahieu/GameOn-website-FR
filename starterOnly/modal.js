@@ -75,12 +75,6 @@ function filledField() {
   }
 };
 
-textControl.forEach((field) =>
-  field.addEventListener("focusout", () => {
-    filledField();
-  })
-);
-
 // Checking firstname input
 let errorFirst = 0;
 
