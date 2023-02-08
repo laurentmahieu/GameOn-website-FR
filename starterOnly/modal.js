@@ -39,7 +39,7 @@ modalCloseBtn[0].addEventListener("click", () => {
   modalbg.style.display = "none";
 });
 
-// Error messages array
+// Error messages Object
 const errors = {
   invalidFirst: "Le prénom ne doit comporter que des lettres ou des tirets.",
   minFirstLetters: "Veuillez entrer 2 caractères ou plus pour le champ du prénom.",
@@ -49,7 +49,7 @@ const errors = {
   invalidDate: "La date de naissance renseignée n'est pas valide.",
   invalidQuantity: "Veuillez renseigner votre nombre de participation.",
   invalidCity: "Vous devez choisir une ville.",
-  invalidCGU: "<br>Vous devez acceptez les termes et conditions pour participer.",
+  invalidGtu: "<br>Vous devez acceptez les termes et conditions pour participer.",
 };
 
 // Checking inputs with regex
@@ -59,137 +59,148 @@ const regexBirthdate = /^((19[3-9]+[0-9]|200[0-9])-(0?[1-9]|1[0-2])-(0?[1-9]|[12
 const regexQuantity = /^[0-9]*$/;
 
 // Checking firstname input
+function checkErrorFirst(textContent, className, firstError) {
+  errorFirstName.textContent = textContent;
+  first.className = className;
+  errorFirst = firstError;
+}
+
 let errorFirst = 0;
 
-function firstName() {
+function checkFirstname() {
   if (regexName.test(first.value) === false && first.value !== "") {
     const errorFirstName = document.getElementById("errorFirstName");
-    errorFirstName.textContent = errors.invalidFirst;
-    first.className = "text-control error-border";
-    errorFirst = 1;
+    checkErrorFirst(errors.invalidFirst, "text-control error-border", 1)
   } else if (first.value.length <= 1) {
-    errorFirstName.textContent = errors.minFirstLetters;
-    first.className = "text-control error-border";
-    errorFirst = 1;
+    checkErrorFirst(errors.minFirstLetters, "text-control error-border", 1)
   } else {
-    errorFirstName.textContent = "";
-    first.className = "text-control";
-    errorFirst = 0;
+    checkErrorFirst("", "text-control", 0)
   }
 };
 
+//--- methods to check instantly during writting in the field
 first.oninput = () => {
-  firstName();
+  checkFirstname();
 };
 
 first.addEventListener("focusout", () => {
-  firstName();
+  checkFirstname();
 });
 
 // Checking lastname input
+function checkErrorLast(textContent, className, lastError) {
+  errorLastName.textContent = textContent;
+  last.className = className;
+  errorLast = lastError;
+}
+
 let errorLast = 0;
 
-function lastName() {
+function checkLastname() {
   if (regexName.test(last.value) === false && last.value !== "") {
     const errorLastName = document.getElementById("errorLastName");
-    errorLastName.textContent = errors.invalidLast;
-    last.className = "text-control error-border";
-    errorLast = 1;
+    checkErrorLast(errors.invalidLast, "text-control error-border", 1)
   } else if (last.value.length <= 1) {
-    errorLastName.textContent = errors.minLastLetters;
-    last.className = "text-control error-border";
-    errorLast = 1;
+    checkErrorLast(errors.minLastLetters, "text-control error-border", 1)
   } else {
-    errorLastName.textContent = "";
-    last.className = "text-control";
-    errorLast = 0;
+    checkErrorLast("", "text-control", 0)
   }
 };
 
 last.oninput = () => {
-  lastName();
+  checkLastname();
 };
 
 last.addEventListener("focusout", () => {
-  lastName();
+  checkLastname();
 });
 
 // Checking email input
+function checkErrorMail(textContent, className, mailError) {
+  errorEmail.textContent = textContent;
+  email.className = className;
+  errorMail = mailError;
+}
+
 let errorMail = 0;
 
-function mailAddress() {
+function checkMail() {
   if (regexEmail.test(email.value) === false || email.value === "") {
     const errorEmail = document.getElementById("errorEmail");
-    errorEmail.textContent = errors.invalidMail;
-    email.className = "text-control error-border";
-    errorMail = 1;
+    checkErrorMail(errors.invalidMail, "text-control error-border", 1)
   } else {
-    errorEmail.textContent = "";
-    email.className = "text-control";
-    errorMail = 0;
+    checkErrorMail("", "text-control", 0)
   }
 };
 
 email.oninput = () => {
-  mailAddress();
+  checkMail();
 };
 
 email.addEventListener("focusout", () => {
-  mailAddress();
+  checkMail();
 });
 
 // Checking birthdate input
+function checkErrorBirthdate(textContent, className, dateError) {
+  errorBirthdate.textContent = textContent;
+  birthdate.className = className;
+  errorBirth = dateError;
+}
 let errorBirth = 0;
 
-function dateOfBirth() {
+function checkBirthdate() {
   if (regexBirthdate.test(birthdate.value) === false) {
     const errorBirthdate = document.getElementById("errorBirthdate");
-    errorBirthdate.textContent = errors.invalidDate;
-    birthdate.className = "text-control error-border";
-    errorBirth = 1;
+    checkErrorBirthdate(errors.invalidDate, "text-control error-border", 1)
   } else {
-    errorBirthdate.textContent = "";
-    birthdate.className = "text-control";
-    errorBirth = 0;
+    checkErrorBirthdate("", "text-control", 0)
   }
 };
 
 birthdate.oninput = () => {
-  dateOfBirth();
+  checkBirthdate();
 };
 
 birthdate.addEventListener("focusout", () => {
-  dateOfBirth();
+  checkBirthdate();
 });
 
 
 // Checking the number of participations
+function checkErrorQuantity(textContent, className, quantityError) {
+  errorQuantity.textContent = textContent;
+  quantity.className = className;
+  errorParticipations = quantityError;
+}
+
 let errorParticipations = 0;
 
-function numberOfParticipations() {
+function checkParticipations() {
   if (regexQuantity.test(quantity.value) === false || quantity.value === "") {
-    errorQuantity.textContent = errors.invalidQuantity;
-    quantity.className = "text-control error-border";
-    errorParticipations = 1;
+    checkErrorQuantity(errors.invalidQuantity, "text-control error-border", 1)
   } else {
-    errorQuantity.textContent = "";
-    quantity.className = "text-control";
-    errorParticipations = 0;
+    checkErrorQuantity("", "text-control", 0)
   }
 };
 
 quantity.onchange = () => {
-  numberOfParticipations();
+  checkParticipations();
 };
 
 quantity.addEventListener("focusout", () => {
-  numberOfParticipations();
+  checkParticipations();
 });
 
 // Checking the city choice
+function checkErrorCity(textContent, cityError) {
+  errorCity.textContent = textContent;
+  errorCities = cityError;
+}
+
 let errorCities = 0;
 
-function cityParticipation() {
+function checkCity() {
   let valid = false;
   for (let i = 0; i < cities.length; i++) {
     if (cities[i].checked) {
@@ -199,11 +210,9 @@ function cityParticipation() {
 
   if (valid) {
     const errorCity = document.getElementById("errorCity");
-    errorCity.textContent = "";
-    errorCities = 0;
+    checkErrorCity("", 0)
   } else {
-    errorCity.textContent = errors.invalidCity;
-    errorCities = 0;
+    checkErrorCity(errors.invalidCity, 1)
   }
 };
 
@@ -222,10 +231,10 @@ cities.forEach((btn) =>
 // Checking checkbox GTU input
 let errorCheck = 0;
 
-function checkedCGU() {
+function checkGtu() {
   if (checkboxGtu.checked === false) {
-    checkboxEmpty.innerHTML = errors.invalidCGU;
-    errorCheck = true;
+    checkboxEmpty.innerHTML = errors.invalidGtu;
+    errorCheck = 1;
   } else {
     checkboxEmpty.textContent = "";
     errorCheck = 0;
@@ -233,18 +242,18 @@ function checkedCGU() {
 };
 
 checkboxGtu.addEventListener("change", function() {
-  this.checked ? (checkboxEmpty.textContent = "") : (checkboxEmpty.innerHTML = errors.invalidCGU);
+  this.checked ? (checkboxEmpty.textContent = "") : (checkboxEmpty.innerHTML = errors.invalidGtu);
 });
 
 modalSubmitBtn.addEventListener("click", (e) => {
-// Checking that there is no error detected
-  firstName();
-  lastName();
-  mailAddress();
-  dateOfBirth();
-  numberOfParticipations();
-  cityParticipation();
-  checkedCGU();
+// Checking that there is no errors detected
+  checkFirstname();
+  checkLastname();
+  checkMail();
+  checkBirthdate();
+  checkParticipations();
+  checkCity();
+  checkGtu();
   e.preventDefault();
   if (errorFirst + errorLast + errorMail + errorBirth + errorParticipations + errorCities + errorCheck === 0) {
     form.style.display = "none";
