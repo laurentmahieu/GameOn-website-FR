@@ -55,11 +55,15 @@ const errors = {
 };
 
 // Checking inputs with regex
-const regexName = /^[a-zA-Z\-éëàèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇÆæœ]{2,}$/;
-const regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-const regexBirthdate =
-  /^((19[3-9]+[0-9]|200[0-9])-(0?[1-9]|1[0-2])-(0?[1-9]|[12]\d|3[01])|(0?[1-9]|[12]\d|3[01])[/](0?[1-9]|1[0-2])[/](19[3-9]+[0-9]|200[0-6]))$/;
-const regexQuantity = /^[0-9]*$/;
+const rules = {
+  birthdate: (v) =>
+    /^((19[3-9]+[0-9]|200[0-9])-(0?[1-9]|1[0-2])-(0?[1-9]|[12]\d|3[01])|(0?[1-9]|[12]\d|3[01])[/](0?[1-9]|1[0-2])[/](19[3-9]+[0-9]|200[0-6]))$/.test(
+      v
+    ),
+  name: (v) => /^[a-zA-Z\-éëàèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇÆæœ]{2,}$/.test(v),
+  mail: (v) => /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(v),
+  quantity: (v) => /^[0-9]*$/.test(v),
+};
 
 // Checking firstname input
 function checkErrorFirst(textContent, className, firstError) {
@@ -71,7 +75,7 @@ function checkErrorFirst(textContent, className, firstError) {
 let errorFirst = 0;
 
 function checkFirstname() {
-  if (regexName.test(first.value) === false && first.value !== "") {
+  if (!rules.name(first.value) && first.value !== "") {
     const errorFirstName = document.getElementById("errorFirstName");
     checkErrorFirst(errors.invalidFirst, "text-control error-border", 1);
   } else if (first.value.length <= 1) {
@@ -100,7 +104,7 @@ function checkErrorLast(textContent, className, lastError) {
 let errorLast = 0;
 
 function checkLastname() {
-  if (regexName.test(last.value) === false && last.value !== "") {
+  if (!rules.name(last.value) && last.value !== "") {
     const errorLastName = document.getElementById("errorLastName");
     checkErrorLast(errors.invalidLast, "text-control error-border", 1);
   } else if (last.value.length <= 1) {
@@ -128,7 +132,7 @@ function checkErrorMail(textContent, className, mailError) {
 let errorMail = 0;
 
 function checkMail() {
-  if (regexEmail.test(email.value) === false || email.value === "") {
+  if (!rules.mail(email.value) || email.value === "") {
     const errorEmail = document.getElementById("errorEmail");
     checkErrorMail(errors.invalidMail, "text-control error-border", 1);
   } else {
@@ -153,7 +157,7 @@ function checkErrorBirthdate(textContent, className, dateError) {
 let errorBirth = 0;
 
 function checkBirthdate() {
-  if (regexBirthdate.test(birthdate.value) === false) {
+  if (!rules.birthdate(birthdate.value)) {
     const errorBirthdate = document.getElementById("errorBirthdate");
     checkErrorBirthdate(errors.invalidDate, "text-control error-border", 1);
   } else {
@@ -179,7 +183,7 @@ function checkErrorQuantity(textContent, className, quantityError) {
 let errorParticipations = 0;
 
 function checkParticipations() {
-  if (regexQuantity.test(quantity.value) === false || quantity.value === "") {
+  if (!rules.quantity(quantity.value) || quantity.value === "") {
     checkErrorQuantity(errors.invalidQuantity, "text-control error-border", 1);
   } else {
     checkErrorQuantity("", "text-control", 0);
