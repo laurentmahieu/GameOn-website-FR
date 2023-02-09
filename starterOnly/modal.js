@@ -65,6 +65,25 @@ const rules = {
   quantity: (v) => /^[0-9]*$/.test(v),
 };
 
+const inputs = [
+  { elementId: "first", checkFunction: checkFirstname },
+  { elementId: "last", checkFunction: checkLastname },
+  { elementId: "email", checkFunction: checkMail },
+  { elementId: "birthdate", checkFunction: checkBirthdate },
+];
+
+inputs.forEach((input) => {
+  const element = document.getElementById(input.elementId);
+  //--- methods to check instantly during writting in the field
+  element.oninput = () => {
+    input.checkFunction();
+  };
+
+  first.addEventListener("focusout", () => {
+    input.checkFunction();
+  });
+});
+
 // Checking firstname input
 function checkErrorFirst(textContent, className, firstError) {
   errorFirstName.textContent = textContent;
@@ -84,15 +103,6 @@ function checkFirstname() {
     checkErrorFirst("", "text-control", 0);
   }
 }
-
-//--- methods to check instantly during writting in the field
-first.oninput = () => {
-  checkFirstname();
-};
-
-first.addEventListener("focusout", () => {
-  checkFirstname();
-});
 
 // Checking lastname input
 function checkErrorLast(textContent, className, lastError) {
@@ -114,14 +124,6 @@ function checkLastname() {
   }
 }
 
-last.oninput = () => {
-  checkLastname();
-};
-
-last.addEventListener("focusout", () => {
-  checkLastname();
-});
-
 // Checking email input
 function checkErrorMail(textContent, className, mailError) {
   errorEmail.textContent = textContent;
@@ -140,14 +142,6 @@ function checkMail() {
   }
 }
 
-email.oninput = () => {
-  checkMail();
-};
-
-email.addEventListener("focusout", () => {
-  checkMail();
-});
-
 // Checking birthdate input
 function checkErrorBirthdate(textContent, className, dateError) {
   errorBirthdate.textContent = textContent;
@@ -164,14 +158,6 @@ function checkBirthdate() {
     checkErrorBirthdate("", "text-control", 0);
   }
 }
-
-birthdate.oninput = () => {
-  checkBirthdate();
-};
-
-birthdate.addEventListener("focusout", () => {
-  checkBirthdate();
-});
 
 // Checking the number of participations
 function checkErrorQuantity(textContent, className, quantityError) {
