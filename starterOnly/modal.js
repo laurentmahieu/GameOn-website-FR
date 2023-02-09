@@ -239,10 +239,11 @@ checkboxGtu.addEventListener("change", function () {
 
 modalSubmitBtn.addEventListener("click", (e) => {
   // Checking that there is no errors detected
-  checkFirstname();
-  checkLastname();
-  checkMail();
-  checkBirthdate();
+
+  inputs.forEach((input) => {
+    input.checkFunction();
+  });
+
   checkParticipations();
   checkCity();
   checkGtu();
