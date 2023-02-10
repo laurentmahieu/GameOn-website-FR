@@ -60,8 +60,9 @@ const rules = {
     /^((19[3-9]+[0-9]|200[0-9])-(0?[1-9]|1[0-2])-(0?[1-9]|[12]\d|3[01])|(0?[1-9]|[12]\d|3[01])[/](0?[1-9]|1[0-2])[/](19[3-9]+[0-9]|200[0-6]))$/.test(
       v
     ),
-  name: (v) => /^[a-zA-Z\-éëàèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇÆæœ]{2,}$/.test(v),
+  name: (v) => /^[a-zA-Z\-éëàèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇÆæœ]{1,}$/.test(v),
   mail: (v) => /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(v),
+  minChart: (v) => !!v && v.length >= 2,
   quantity: (v) => /^[0-9]*$/.test(v),
 };
 
@@ -94,10 +95,10 @@ function checkErrorFirst(textContent, className, firstError) {
 let errorFirst = 0;
 
 function checkFirstname() {
-  if (!rules.name(first.value) && first.value !== "") {
+  if (!rules.name(first.value)) {
     const errorFirstName = document.getElementById("errorFirstName");
     checkErrorFirst(errors.invalidFirst, "text-control error-border", 1);
-  } else if (first.value.length <= 1) {
+  } else if (!rules.minChart(first.value)) {
     checkErrorFirst(errors.minFirstLetters, "text-control error-border", 1);
   } else {
     checkErrorFirst("", "text-control", 0);
@@ -114,10 +115,10 @@ function checkErrorLast(textContent, className, lastError) {
 let errorLast = 0;
 
 function checkLastname() {
-  if (!rules.name(last.value) && last.value !== "") {
+  if (!rules.name(last.value)) {
     const errorLastName = document.getElementById("errorLastName");
     checkErrorLast(errors.invalidLast, "text-control error-border", 1);
-  } else if (last.value.length <= 1) {
+  } else if (!rules.minChart(first.value)) {
     checkErrorLast(errors.minLastLetters, "text-control error-border", 1);
   } else {
     checkErrorLast("", "text-control", 0);
